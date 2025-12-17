@@ -1,0 +1,584 @@
+/* ==============================
+   全体設定
+============================== */
+/* 昼モード：明るい和紙 */
+body {
+    max-width: 100%;
+    font-family: "Noto Serif JP", serif;
+    margin: 0;
+
+    background-image: url("Wasi.jpg");
+
+    color: #333;
+    line-height: 1.8;
+}
+
+
+/* ==============================
+   ヘッダー
+============================== */
+header {
+    background-image: url("taitl-back.jpg");
+    text-align: center;
+    padding-top: 60px;
+    padding-bottom: 30px;
+    color: #4a3a32;
+}
+
+.main-title {
+    font-family: "Sawarabi Mincho", "Noto Serif JP", serif;
+    font-size: 48px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    margin: 0 0 10px 0;
+    color: #080404;
+}
+
+.subtitle {
+    font-family: "Noto Serif JP", serif;
+    font-size: 18px;
+    color: #150b07;
+    letter-spacing: 3px;
+    margin-top: -5px;
+    margin-bottom: 0;
+}
+
+/* ==============================
+   タイトル横の画像（落ちてくる演出）
+============================== */
+/* ヘッダー中央揃え＋左右に画像配置 */
+.header-flex {
+    display: flex;
+    flex-direction: column;   /* ← 常に縦並び */
+    align-items: center;
+    gap: 18px;
+}
+/* ロゴ＋タイトル＋ロゴ：横 */
+.title-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+/* 2つのロゴ画像共通 */
+.title-logo {
+    width: 80px;               /* ← ここで大きさ調整 */
+    opacity: 0;
+    transform: translateY(-80px);
+    transition: transform 1s ease-out, opacity 1s ease-out;
+    margin: 0 10px;
+}
+
+/* 落下後に付けるクラス */
+.drop-active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* タイトル部分のボックスを中央寄せ */
+.title-box {
+    text-align: center;
+}
+
+
+/* ==============================
+   ナビゲーション
+============================== */
+/* ナビ共通（PC・スマホ共通） */
+nav {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center; /* 中央寄せ */
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+
+nav button {
+    background-image: url("Wasi4.jpg");
+    color: #b84c3a;
+    border: none;
+    padding: 10px 18px;
+    margin: 3px;
+    border-radius: 0px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+}
+
+nav button:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+    background: #ffe8e3;
+}
+
+nav button:active {
+    transform: translateY(0px);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1) inset;
+}
+
+nav button.active {
+    background: #ffdcd6;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.10);
+}
+
+/* ==============================
+   セクション
+============================== */
+.section {
+    padding: 50px 20px;
+    max-width: 900px;
+    margin: auto;
+    background: #faf6f0;
+    position: relative;
+      background: rgba(255, 255, 255, 0.6); /* 和紙の薄い透過層 */
+    backdrop-filter: blur(2px);           /* ぼかし → 和紙の層感 */
+}
+
+/* セクション区切りのデザイン */ 
+.section-divider {
+    height: 28px;
+    background: linear-gradient(90deg, rgba(184,76,58,0.15) 0%,
+    rgba(184,76,58,0.05) 50%, rgba(184,76,58,0.15) 100%);
+    margin: 24px 0; border-radius: 6px; 
+    }
+
+/* スクロールフェード */
+.section.hidden {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: all 0.8s ease;
+}
+
+.section.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.section p span.show {
+    opacity: 1;
+}
+
+/* ==============================
+   区切り線（初期は0）
+============================== */
+.section-divider {
+    width: 0;
+    height: 2px;
+    margin: 40px auto;
+    background: #b84c3a;
+    border-radius: 2px;
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+}
+
+/* アニメーション開始時に付与するクラス */
+.section-divider.line-animate {
+    animation: lineGrow 1.5s ease-out forwards;
+    opacity: 1;
+}
+
+/* 伸びるアニメーション */
+@keyframes lineGrow {
+    from { width: 0; opacity: 0; }
+    to   { width: 80%; opacity: 1; }
+}
+
+
+/* ==============================
+   見出し（線アニメーション）
+============================== */
+h2 {
+    position: relative;
+    display: block;           /* 中央配置に必要 */
+    width: fit-content;       /* 中央寄せできる幅にする */
+    margin: 0 auto 25px;      /* 左右 auto でセンターに */
+    padding-bottom: 8px;
+    overflow: hidden;
+    font-size: 28px;
+    letter-spacing: 2px;
+    text-align: center;       /* 文字も中央 */
+}
+
+h2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 0;
+    background-color: #b84c3a;
+}
+
+h2.animate-line::after {
+    animation: underline 1.2s ease forwards;
+}
+
+
+@keyframes underline {
+    0% { width: 0; }
+    100% { width: 100%; }
+}
+
+/* ==============================
+   歴史・イベント共通
+============================== */
+.history-block,
+.event-card {
+    text-align: center;
+}
+
+.section img,
+.history-img,
+.event-img,
+.fade img {
+
+    display: block;          /* ← これが重要 */
+    margin: 0 auto;          /* ← センター寄せ */
+
+    padding: 12px;
+    background: #fdfbf7;
+    border: 4px solid #5a3a1a;
+
+    box-shadow:
+        0 4px 10px rgba(0,0,0,0.25),
+        inset 0 0 0 2px #d8c7a3;
+
+    box-sizing: border-box;
+}
+
+
+/* ==============================
+   スライドショー
+============================== */
+.slideshow {
+    position: relative;
+    width: 80%;
+    height: 230px;
+    margin: 15px auto;
+    border-radius: 0px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    max-width: 50%;
+}
+
+.slideshow img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 1.5s ease-in-out;
+    opacity: 0;
+}
+
+.slideshow img.active {
+    opacity: 1;
+}
+
+/* ==============================
+   フェードアニメ
+============================== */
+.fade {
+    opacity: 0;
+    /*transform: translateY(30px);*/
+    transition: 0.8s ease-out;
+}
+
+.fade.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==============================
+   Instagram 埋め込み
+============================== */
+.insta-wrapper {
+    max-width: 540px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.insta-wrapper iframe,
+.insta-wrapper blockquote {
+    display: block;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* ==============================
+   Googleマップ
+============================== */
+.map-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+}
+
+.map-container iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+/* ==============================
+   TOPへ戻るボタン
+============================== */
+#backToTop {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    padding: 10px 16px;
+    background: #b84c3a;
+    color: #fff;
+    border: none;
+    border-radius: 0px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    transform: translateY(20px);
+    z-index: 999;
+}
+
+#backToTop.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+/* ==============================
+   ナイトモード
+============================== */
+body.dark {
+    background: #222;
+    color: #eee;
+}
+
+body.dark .section {
+    background: #333;
+    color: #eee;
+}
+
+
+/* ==============================
+   スマホ対応
+============================== */
+@media (max-width: 600px) {
+
+    .main-title {
+        margin-top: 35px;
+        font-size: 40px !important;
+    }
+
+    .slideshow {
+        width: 92%;
+        height: 170px;
+    }
+
+    .section {
+        padding: 22px 14px;
+    }
+
+    .section h2 {
+        font-size: 20px;
+        
+        text-align: center;
+    }
+
+    p {
+        font-size: 14px;
+        line-height: 1.7;
+        padding: 0 5px;
+    }
+
+    nav button {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .map-container iframe {
+        height: 260px;
+    }
+
+    #backToTop {
+        right: 15px;
+        bottom: 20px;
+    }
+
+     /* ヘッダー全体を縦並びに */
+    .header-row {
+         display: flex; 
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
+    .title-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+    /* 左ロゴだけ表示する */
+    #leftLogo {
+        display: block;
+        order: -1;              /* ← タイトルより上へ */
+        margin: 0 0 12px 0;
+         margin-top: 50px;
+    }
+
+    /* 右ロゴはスマホ時非表示 */
+    #rightLogo {
+        display: none;
+    }
+
+    /* 画像は少し小さめに */
+    .title-logo {
+        width: 200px;
+    }
+    
+}
+
+/* ==============================
+   線が左から右へ伸びるアニメーション
+============================== */
+.section-divider {
+    width: 0;
+    height: 2px;
+    margin: 40px auto;
+    background: #b84c3a;
+    border-radius: 2px;
+    animation: lineGrow 1.5s ease-out forwards;
+}
+
+/* 伸びるアニメーション */
+@keyframes lineGrow {
+    from {
+        width: 0;
+        opacity: 0;
+    }
+    to {
+        width: 80%;
+        opacity: 1;
+    }
+}
+
+/* 夜モード：暗め加工の和紙（Wasi2.jpg など） */
+body.dark {
+    background-image: url("Wasi2.jpg"); /* ← 夜用の暗い和紙 */
+   
+
+    color: #eee;
+}
+
+body.dark .section {
+    background: rgba(0, 0, 0, 0.45);
+    color: #fafafa;
+}
+
+body.dark .section::before {
+    opacity: 0.15; /* 暗い背景に合わせて少し薄く */
+}
+
+/* === スタート画面 === */
+#start-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("Wasi.jpg");
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+    cursor: pointer;
+
+    transition: opacity 0.8s ease;
+}
+
+
+/* 画像 */
+#start-screen img {
+    width: 80%;
+    max-width: 500px;
+    border-radius: 0px;
+}
+
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+}
+
+/* 消す時のフェードアウト */
+#start-screen.hide {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ===== スタート画面のタイトル ===== */
+.start-title {
+    color: #d03333;
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    margin-bottom: 12px;
+
+    text-shadow: 0 0 8px rgba(0,0,0,0.6);
+    animation: fadeInTitle 1.5s ease forwards;
+    opacity: 0;
+}
+
+/* ===== サブタイトル ===== */
+.start-subtitle {
+    color: #f9f9f9;
+    font-size: 20px;
+    letter-spacing: 2px;
+    margin-top: 4px;
+
+    opacity: 0;
+    animation: fadeInSub 2.2s ease forwards;
+}
+
+/* タイトル文字のフェード */
+@keyframes fadeInTitle {
+    0%   { opacity: 0; transform: translateY(12px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* サブタイトルのふわっと */
+@keyframes fadeInSub {
+    0%   { opacity: 0; transform: translateY(14px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* 画像ふわっと出現 */
+#start-screen img {
+    width: 80%;
+    max-width: 500px;
+    border-radius: 0px;
+
+    opacity: 0;
+    transform: translateY(12px);
+    animation: fadeInUp 1.2s ease forwards;
+    animation-delay: 0.3s; /* 少し遅れて出ると演出が綺麗 */
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
